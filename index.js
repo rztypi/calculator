@@ -11,9 +11,9 @@ let result = DEFAULT_RESULT;
 
 const numberBtnsDiv = document.getElementById("number-btns");
 const numberBtns = numberBtnsDiv.querySelectorAll("button");
-numberBtns.forEach(btn => btn.addEventListener("click", updateNumber));
+numberBtns.forEach(btn => btn.addEventListener("click", setNumber));
 
-function updateNumber(e) {
+function setNumber(e) {
     const btnNumber = e.target.textContent;
     if (operator === null) {
         firstNumber = +(firstNumber + btnNumber);
@@ -33,6 +33,13 @@ function setOperator(e) {
     }
     operator = btnOperator;
 }
+
+const operation = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": divide
+};
 
 function add(x, y) {
     return x + y;
