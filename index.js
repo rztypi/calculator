@@ -9,6 +9,25 @@ let secondNumber = DEFAULT_SECOND_NUMBER;
 let result = DEFAULT_RESULT;
 
 
+const firstNumberText = document.getElementById("first-number");
+const operatorText = document.getElementById("operator");
+const secondNumberText = document.getElementById("second-number");
+const resultText = document.getElementById("result");
+
+function setFirstNumberText() {
+    firstNumberText.textContent = firstNumber;
+}
+function setOperatorText() {
+    operatorText.textContent = operator;
+}
+function setSecondNumberText() {
+    secondNumberText.textContent = secondNumber;
+}
+function setResultText() {
+    resultText.textContent = result;
+}
+
+
 const numberBtnsDiv = document.getElementById("number-btns");
 const numberBtns = numberBtnsDiv.querySelectorAll("button");
 numberBtns.forEach(btn => btn.addEventListener("click", setNumber));
@@ -17,8 +36,10 @@ function setNumber(e) {
     const btnNumber = e.target.textContent;
     if (operator === null) {
         firstNumber = +(firstNumber + btnNumber);
+        setFirstNumberText();
     } else {
         secondNumber = (secondNumber === null) ? +btnNumber : +(secondNumber + btnNumber);
+        setSecondNumberText();
     }
 }
 
@@ -29,16 +50,24 @@ operatorBtns.forEach(btn => btn.addEventListener("click", setOperator));
 function setOperator(e) {
     const btnOperator = e.target.textContent;
     if (secondNumber !== null) {
-        operate()
+        operate();
     }
     operator = btnOperator;
+    setOperatorText();
 }
+
+
+const equalBtn = document.getElementById("equal");
+equalBtn.addEventListener("click", (e) => {
+    operate();
+});
 
 const operation = {
     "+": add,
     "-": subtract,
     "*": multiply,
-    "/": divide
+    "/": divide,
+    "=": operate,
 };
 
 function add(x, y) {
@@ -63,7 +92,8 @@ function operate() {
         && operator !== null
         && secondNumber !== null
     ) {
-        console.log("OPERATE!")
+        result = operation[operator](firstNumber, secondNumber);
+        setResultText();
     } else {
         console.log("don't operate...")
     }
