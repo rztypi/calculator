@@ -56,8 +56,24 @@ function setOperator(e) {
     setOperatorText();
 }
 
+const clearBtn = document.getElementById("clear-btn");
+clearBtn.addEventListener("click", (e) => {
+    clearValues();
+});
 
-const equalBtn = document.getElementById("equal");
+function clearValues() {
+    firstNumber = DEFAULT_FIRST_NUMBER;
+    operator = DEFAULT_OPERATOR;
+    secondNumber = DEFAULT_SECOND_NUMBER;
+    result = DEFAULT_RESULT;
+
+    setFirstNumberText();
+    setOperatorText();
+    setSecondNumberText();
+    setResultText();
+}
+
+const equalBtn = document.getElementById("equal-btn");
 equalBtn.addEventListener("click", (e) => {
     operate();
 });
