@@ -78,12 +78,24 @@ equalBtn.addEventListener("click", (e) => {
     operate();
 });
 
+function operate() {
+    if (
+        firstNumber !== null
+        && operator !== null
+        && secondNumber !== null
+    ) {
+        result = operation[operator](firstNumber, secondNumber);
+        setResultText();
+    } else {
+        console.log("don't operate...")
+    }
+}
+
 const operation = {
     "+": add,
     "-": subtract,
     "*": multiply,
     "/": divide,
-    "=": operate,
 };
 
 function add(x, y) {
@@ -102,15 +114,3 @@ function divide(x, y) {
     return x / y;
 }
 
-function operate() {
-    if (
-        firstNumber !== null
-        && operator !== null
-        && secondNumber !== null
-    ) {
-        result = operation[operator](firstNumber, secondNumber);
-        setResultText();
-    } else {
-        console.log("don't operate...")
-    }
-}
