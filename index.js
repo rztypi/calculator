@@ -9,22 +9,22 @@ let secondNumber = DEFAULT_SECOND_NUMBER;
 let result = DEFAULT_RESULT;
 
 
-const firstNumberText = document.getElementById("first-number");
-const operatorText = document.getElementById("operator");
-const secondNumberText = document.getElementById("second-number");
-const resultText = document.getElementById("result");
+const expressionText = document.getElementById("expression");
 
-function setFirstNumberText() {
-    firstNumberText.textContent = firstNumber;
+function writeExpressionText() {
+    expressionText.textContent = `${firstNumber}`;
+    if (operator !== DEFAULT_OPERATOR) {
+        expressionText.textContent += ` ${operator}`;
+    }
+    if (secondNumber !== DEFAULT_SECOND_NUMBER) {
+        expressionText.textContent += ` ${secondNumber}`;
+    }
 }
-function setOperatorText() {
-    operatorText.textContent = operator;
-}
-function setSecondNumberText() {
-    secondNumberText.textContent = secondNumber;
-}
-function setResultText() {
-    resultText.textContent = result;
+
+const displayText = document.getElementById("display");
+
+function setDisplayText(text) {
+    displayText.textContent = text;
 }
 
 
@@ -34,14 +34,21 @@ numberBtns.forEach(btn => btn.addEventListener("click", setNumber));
 
 function setNumber(e) {
     const btnNumber = e.target.textContent;
-    if (operator === null) {
+    if (operator === DEFAULT_OPERATOR) {
         firstNumber = +(firstNumber + btnNumber);
-        setFirstNumberText();
+
+        setDisplayText(firstNumber);
+
     } else {
         secondNumber = (secondNumber === null) ? +btnNumber : +(secondNumber + btnNumber);
-        setSecondNumberText();
+
+        setDisplayText(secondNumber);
     }
+    result = DEFAULT_RESULT;
+
+    writeExpressionText();
 }
+
 
 const operatorBtnsDiv = document.getElementById("operator-btns");
 const operatorBtns = operatorBtnsDiv.querySelectorAll("button");
@@ -49,29 +56,43 @@ operatorBtns.forEach(btn => btn.addEventListener("click", setOperator));
 
 function setOperator(e) {
     const btnOperator = e.target.textContent;
-    if (secondNumber !== null) {
+    if (secondNumber !== DEFAULT_SECOND_NUMBER) {
         operate();
+
+        firstNumber = result;
+        secondNumber = DEFAULT_SECOND_NUMBER;
+
+        writeExpressionText();
+
+    } else if (result !== DEFAULT_RESULT) {
+        firstNumber = result;
+        secondNumber = DEFAULT_SECOND_NUMBER;
+
+        writeExpressionText();
     }
+    result = DEFAULT_RESULT;
     operator = btnOperator;
-    setOperatorText();
+
+    setDisplayText(operator);
+    writeExpressionText();
 }
+
 
 const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", (e) => {
-    clearValues();
+    clearAll();
 });
 
-function clearValues() {
+function clearAll() {
     firstNumber = DEFAULT_FIRST_NUMBER;
     operator = DEFAULT_OPERATOR;
     secondNumber = DEFAULT_SECOND_NUMBER;
     result = DEFAULT_RESULT;
 
-    setFirstNumberText();
-    setOperatorText();
-    setSecondNumberText();
-    setResultText();
+    setDisplayText(firstNumber);
+    writeExpressionText();
 }
+
 
 const equalBtn = document.getElementById("equal-btn");
 equalBtn.addEventListener("click", (e) => {
@@ -85,7 +106,8 @@ function operate() {
         && secondNumber !== null
     ) {
         result = operation[operator](firstNumber, secondNumber);
-        setResultText();
+        setDisplayText(result);
+        clearExpression();
     } else {
         console.log("don't operate...")
     }
@@ -114,3 +136,9 @@ function divide(x, y) {
     return x / y;
 }
 
+
+function clearExpression() {
+    firstNumber = DEFAULT_FIRST_NUMBER;
+    operator = DEFAULT_OPERATOR;
+    secondNumber = DEFAULT_SECOND_NUMBER;
+}
