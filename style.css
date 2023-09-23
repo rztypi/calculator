@@ -25,17 +25,21 @@ body {
     background-color: #176B87;
     width: 360px;
     height: 480px;
-    padding: 16px;
+    padding: 28px;
+    border-radius: 10px;
     flex: none;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
+    gap: 16px;
 }
 
 #display-container {
     background-color: #EEEEEE;
     height: 100px;
     padding: 8px;
+    border-radius: 5px;
+    flex: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -44,4 +48,37 @@ body {
 
 #display {
     font-size: 50px;
+}
+
+#btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+button {
+    height: 55px;
+    width: 64px;
+    border: none;
+    border-radius: 2px;
+    color:#EEEEEE;
+    font-size: 35px;
+}
+
+.number-btn {
+    background-color: #B4B4B3;
+    color: #000000;
+}
+
+.operator-btn {
+    background-color: #64CCC5;
+}
+
+#clear-btn {
+    background-color: #0E21A0;
+}
+
+#equal-btn {
+    background-color: #E25E3E;
 }
