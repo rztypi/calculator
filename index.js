@@ -28,8 +28,7 @@ function setDisplayText(text) {
 }
 
 
-const numberBtnsDiv = document.getElementById("number-btns");
-const numberBtns = numberBtnsDiv.querySelectorAll("button");
+const numberBtns = document.querySelectorAll(".number-btn");
 numberBtns.forEach(btn => btn.addEventListener("click", setNumber));
 
 function setNumber(e) {
@@ -50,8 +49,7 @@ function setNumber(e) {
 }
 
 
-const operatorBtnsDiv = document.getElementById("operator-btns");
-const operatorBtns = operatorBtnsDiv.querySelectorAll("button");
+const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach(btn => btn.addEventListener("click", setOperator));
 
 function setOperator(e) {
