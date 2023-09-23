@@ -1,9 +1,47 @@
 html {
     box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
 }
 
 *,
 *::after,
 *::before {
     box-sizing: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+body {
+    background-color: #053B50;
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#calculator {
+    background-color: #176B87;
+    width: 360px;
+    height: 480px;
+    padding: 16px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#display-container {
+    background-color: #EEEEEE;
+    height: 100px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+#display {
+    font-size: 50px;
 }
