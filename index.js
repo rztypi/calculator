@@ -1,4 +1,4 @@
-const DEFAULT_FIRST_NUMBER = 0;
+const DEFAULT_FIRST_NUMBER = "0";
 const DEFAULT_OPERATOR = null;
 const DEFAULT_SECOND_NUMBER = null;
 const DEFAULT_RESULT = null;
@@ -27,7 +27,7 @@ const displayText = document.getElementById("display");
 function setDisplayText(text) {
     displayText.textContent = text;
 }
-setDisplayText(0);
+setDisplayText(firstNumber);
 
 
 const numberBtns = document.querySelectorAll(".number-btn");
@@ -36,12 +36,12 @@ numberBtns.forEach(btn => btn.addEventListener("click", setNumber));
 function setNumber(e) {
     const btnNumber = e.target.textContent;
     if (operator === DEFAULT_OPERATOR) {
-        firstNumber = +(firstNumber + btnNumber);
+        firstNumber = (firstNumber === null || firstNumber === "0") ? btnNumber : firstNumber + btnNumber;
 
         setDisplayText(firstNumber);
 
     } else {
-        secondNumber = (secondNumber === null) ? +btnNumber : +(secondNumber + btnNumber);
+        secondNumber = (secondNumber === null || secondNumber === "0") ? btnNumber : secondNumber + btnNumber;
 
         setDisplayText(secondNumber);
     }
@@ -105,11 +105,12 @@ function operate() {
         && operator !== null
         && secondNumber !== null
     ) {
-        result = operation[operator](firstNumber, secondNumber);
+        let x = Number(firstNumber);
+        let y = Number(secondNumber)
+        result = Math.round(operation[operator](x, y) * 1000000) / 1000000;
+        console.log(result)
         setDisplayText(result);
         clearExpression();
-    } else {
-        console.log("don't operate...")
     }
 }
 
