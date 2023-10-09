@@ -20,12 +20,14 @@ function writeExpressionText() {
         expressionText.textContent += ` ${secondNumber}`;
     }
 }
+writeExpressionText();
 
 const displayText = document.getElementById("display");
 
 function setDisplayText(text) {
     displayText.textContent = text;
 }
+setDisplayText(0);
 
 
 const numberBtns = document.querySelectorAll(".number-btn");
