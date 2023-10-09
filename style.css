@@ -24,7 +24,7 @@ body {
 #calculator {
     background-color: #176B87;
     width: 360px;
-    height: 480px;
+    height: auto;
     padding: 28px;
     border-radius: 10px;
     flex: none;
@@ -36,18 +36,24 @@ body {
 
 #display-container {
     background-color: #EEEEEE;
-    height: 100px;
     padding: 8px;
     border-radius: 5px;
-    flex: none;
+    text-align: right;
+    flex: 1 0 100px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
+    justify-content: center;
+}
+
+#expression {
+    inline-size: auto;
+    overflow-wrap: break-word;
 }
 
 #display {
     font-size: 50px;
+    inline-size: auto;
+    overflow-wrap: break-word;
 }
 
 #btns {
