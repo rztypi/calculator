@@ -139,3 +139,8 @@ window.addEventListener("keydown", (e) => {
         operate()
     }
 });
+
+const btns = document.querySelectorAll("button")
+btns.forEach(btn => btn.addEventListener("keydown", (e) => {
+    e.preventDefault();
+}));
