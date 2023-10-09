@@ -51,7 +51,7 @@ body {
 }
 
 #display {
-    font-size: 50px;
+    font-size: 40px;
     inline-size: auto;
     overflow-wrap: break-word;
 }
@@ -67,9 +67,9 @@ button {
     height: 55px;
     width: 64px;
     border: none;
-    border-radius: 2px;
+    border-radius: 4px;
     color:#EEEEEE;
-    font-size: 35px;
+    font-size: 25px;
 }
 
 .number-btn {
