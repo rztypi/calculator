@@ -78,10 +78,36 @@ function setOperator(op) {
 }
 
 
+let firstNumberHasPoint = false;
+let secondNumberHasPoint = false;
+
+const pointBtn = document.getElementById("point-btn");
+pointBtn.addEventListener("click", () => {
+    addPoint();
+});
+
+function addPoint() {
+    if (secondNumber !== DEFAULT_SECOND_NUMBER && !secondNumberHasPoint) {
+        secondNumber += "."
+        secondNumberHasPoint = true;
+        setDisplayText(secondNumber);
+    } else if (operator !== DEFAULT_OPERATOR && !secondNumberHasPoint) {
+        secondNumber = "0.";
+        secondNumberHasPoint = true;
+        setDisplayText(secondNumber);
+    } else if (!firstNumberHasPoint) {
+        firstNumber += ".";
+        firstNumberHasPoint = true;
+        setDisplayText(firstNumber);
+    }
+    writeExpressionText();
+}
+
+
 const delBtn = document.getElementById("del-btn");
 delBtn.addEventListener("click", () => {
     deleteText();
-})
+});
 
 function deleteText() {
     console.log("in")
@@ -90,6 +116,11 @@ function deleteText() {
         return;
     }
     if (secondNumber !== DEFAULT_SECOND_NUMBER) {
+        let charToDelete = secondNumber.charAt(secondNumber.length - 1)
+        if (charToDelete === ".") {
+            secondNumberHasPoint = false;
+        }
+
         secondNumber = secondNumber.slice(0, secondNumber.length - 1);
 
         if (secondNumber.length === 0) {
@@ -102,6 +133,11 @@ function deleteText() {
         operator = DEFAULT_OPERATOR;
         setDisplayText(firstNumber);
     } else {
+        let charToDelete = firstNumber.charAt(firstNumber.length - 1)
+        if (charToDelete === ".") {
+            firstNumberHasPoint = false;
+        }
+
         firstNumber = firstNumber.slice(0, firstNumber.length - 1)
 
         if (firstNumber.length === 0) {
@@ -122,6 +158,8 @@ function clearAll() {
     operator = DEFAULT_OPERATOR;
     secondNumber = DEFAULT_SECOND_NUMBER;
     result = DEFAULT_RESULT;
+    firstNumberHasPoint = false;
+    secondNumberHasPoint = false;
 
     setDisplayText(firstNumber);
     writeExpressionText();
@@ -170,8 +208,10 @@ window.addEventListener("keydown", (e) => {
         setOperator(e.key);
     } else if (e.key === "Enter") {
         operate();
-    } else if(e.key === "Backspace") {
+    } else if (e.key === "Backspace") {
         deleteText();
+    } else if (e.key === ".") {
+        addPoint();
     }
 });
 
