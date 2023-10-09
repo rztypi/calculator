@@ -78,6 +78,40 @@ function setOperator(op) {
 }
 
 
+const delBtn = document.getElementById("del-btn");
+delBtn.addEventListener("click", () => {
+    deleteText();
+})
+
+function deleteText() {
+    console.log("in")
+    if (result !== DEFAULT_RESULT) {
+        clearAll();
+        return;
+    }
+    if (secondNumber !== DEFAULT_SECOND_NUMBER) {
+        secondNumber = secondNumber.slice(0, secondNumber.length - 1);
+
+        if (secondNumber.length === 0) {
+            secondNumber = DEFAULT_SECOND_NUMBER;
+            setDisplayText(operator);
+        } else {
+            setDisplayText(secondNumber);
+        }
+    } else if (operator !== DEFAULT_OPERATOR) {
+        operator = DEFAULT_OPERATOR;
+        setDisplayText(firstNumber);
+    } else {
+        firstNumber = firstNumber.slice(0, firstNumber.length - 1)
+
+        if (firstNumber.length === 0) {
+            firstNumber = DEFAULT_FIRST_NUMBER;
+        }
+        setDisplayText(firstNumber);
+    }
+    writeExpressionText();
+}
+
 const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", () => {
     clearAll();
@@ -106,9 +140,8 @@ function operate() {
         && secondNumber !== null
     ) {
         let x = Number(firstNumber);
-        let y = Number(secondNumber)
-
-        result = Math.round(operation[operator](x, y) * 1000000) / 1000000;
+        let y = Number(secondNumber);
+        result = (Math.round(operation[operator](x, y) * 1000000) / 1000000).toString();
         setDisplayText(result);
 
         clearExpression();
@@ -119,9 +152,9 @@ const operation = {
     "+": (x, y) => x + y,
     "-": (x, y) => x - y,
     "*": (x, y) => x * y,
+    "÷": (x, y) => x / y,
     "/": (x, y) => x / y,
 };
-
 
 function clearExpression() {
     firstNumber = DEFAULT_FIRST_NUMBER;
@@ -134,9 +167,11 @@ window.addEventListener("keydown", (e) => {
     if (!Number.isNaN(+e.key)) {
         setNumber(e.key);
     } else if (e.key in operation) {
-        setOperator(e.key)
+        setOperator(e.key);
     } else if (e.key === "Enter") {
-        operate()
+        operate();
+    } else if(e.key === "Backspace") {
+        deleteText();
     }
 });
 
