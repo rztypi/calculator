@@ -8,9 +8,6 @@ let operator = DEFAULT_OPERATOR;
 let secondNumber = DEFAULT_SECOND_NUMBER;
 let secondNumberHasPoint = false;
 
-setExpressionText();
-setMainText(firstNumber);
-
 
 // For setting the text in the display
 const expressionText = document.getElementById("expression");
@@ -28,6 +25,9 @@ const displayText = document.getElementById("display");
 function setMainText(text) {
     displayText.textContent = text;
 }
+
+setExpressionText();
+setMainText(firstNumber);
 
 
 // For setting either the first number or the second number
@@ -172,11 +172,16 @@ function operate() {
     ) {
         let x = Number(firstNumber);
         let y = Number(secondNumber);
-        firstNumber = (Math.round(operation[operator](x, y) * 1000000) / 1000000).toString();
-        setMainText(firstNumber);
 
+        firstNumber = (Math.round(operation[operator](x, y) * 1000000) / 1000000).toString();
+
+        firstNumberHasPoint = (firstNumber.includes(".")) ? true : false;
         operator = DEFAULT_OPERATOR;
         secondNumber = DEFAULT_SECOND_NUMBER;
+        secondNumberHasPoint = false;
+
+        setMainText(firstNumber);
+
     }
 }
 
