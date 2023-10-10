@@ -1,14 +1,18 @@
 const DEFAULT_FIRST_NUMBER = "0";
 const DEFAULT_OPERATOR = null;
 const DEFAULT_SECOND_NUMBER = null;
-const DEFAULT_RESULT = null;
 
 let firstNumber = DEFAULT_FIRST_NUMBER;
+let firstNumberHasPoint = false;
 let operator = DEFAULT_OPERATOR;
 let secondNumber = DEFAULT_SECOND_NUMBER;
-let result = DEFAULT_RESULT;
+let secondNumberHasPoint = false;
+
+setExpressionText();
+setMainText(firstNumber);
 
 
+// For setting the text in the display
 const expressionText = document.getElementById("expression");
 function setExpressionText() {
     expressionText.textContent = `${firstNumber}`;
@@ -19,15 +23,14 @@ function setExpressionText() {
         expressionText.textContent += ` ${secondNumber}`;
     }
 }
-setExpressionText();
 
 const displayText = document.getElementById("display");
-function setDisplayText(text) {
+function setMainText(text) {
     displayText.textContent = text;
 }
-setDisplayText(firstNumber);
 
 
+// For setting either the first number or the second number
 const numberBtns = document.querySelectorAll(".number-btn");
 numberBtns.forEach(btn => btn.addEventListener("click", (e) => {
     setNumber(e.target.textContent)
@@ -37,19 +40,19 @@ function setNumber(number) {
     if (operator === DEFAULT_OPERATOR) {
         firstNumber = (firstNumber === null || firstNumber === "0") ? number : firstNumber + number;
 
-        setDisplayText(firstNumber);
+        setMainText(firstNumber);
 
     } else {
         secondNumber = (secondNumber === null || secondNumber === "0") ? number : secondNumber + number;
 
-        setDisplayText(secondNumber);
+        setMainText(secondNumber);
     }
-    result = DEFAULT_RESULT;
 
     setExpressionText();
 }
 
 
+// For setting the operator
 const operatorBtns = document.querySelectorAll(".operator-btn");
 operatorBtns.forEach(btn => btn.addEventListener("click", (e) => {
     setOperator(e.target.textContent);
@@ -59,28 +62,18 @@ function setOperator(op) {
     if (secondNumber !== DEFAULT_SECOND_NUMBER) {
         operate();
 
-        firstNumber = result;
-        secondNumber = DEFAULT_SECOND_NUMBER;
-
-        setExpressionText();
-
-    } else if (result !== DEFAULT_RESULT) {
-        firstNumber = result;
         secondNumber = DEFAULT_SECOND_NUMBER;
 
         setExpressionText();
     }
-    result = DEFAULT_RESULT;
     operator = op;
 
-    setDisplayText(operator);
+    setMainText(operator);
     setExpressionText();
 }
 
 
-let firstNumberHasPoint = false;
-let secondNumberHasPoint = false;
-
+// For adding a decimal point
 const pointBtn = document.getElementById("point-btn");
 pointBtn.addEventListener("click", () => {
     addPoint();
@@ -90,31 +83,27 @@ function addPoint() {
     if (secondNumber !== DEFAULT_SECOND_NUMBER && !secondNumberHasPoint) {
         secondNumber += "."
         secondNumberHasPoint = true;
-        setDisplayText(secondNumber);
+        setMainText(secondNumber);
     } else if (operator !== DEFAULT_OPERATOR && !secondNumberHasPoint) {
         secondNumber = "0.";
         secondNumberHasPoint = true;
-        setDisplayText(secondNumber);
+        setMainText(secondNumber);
     } else if (!firstNumberHasPoint) {
         firstNumber += ".";
         firstNumberHasPoint = true;
-        setDisplayText(firstNumber);
+        setMainText(firstNumber);
     }
     setExpressionText();
 }
 
 
+// For deleting/erasing user input
 const delBtn = document.getElementById("del-btn");
 delBtn.addEventListener("click", () => {
     deleteText();
 });
 
 function deleteText() {
-    console.log("in")
-    if (result !== DEFAULT_RESULT) {
-        clearAll();
-        return;
-    }
     if (secondNumber !== DEFAULT_SECOND_NUMBER) {
         let charToDelete = secondNumber.charAt(secondNumber.length - 1)
         if (charToDelete === ".") {
@@ -125,13 +114,15 @@ function deleteText() {
 
         if (secondNumber.length === 0) {
             secondNumber = DEFAULT_SECOND_NUMBER;
-            setDisplayText(operator);
+            setMainText(operator);
         } else {
-            setDisplayText(secondNumber);
+            setMainText(secondNumber);
         }
+
     } else if (operator !== DEFAULT_OPERATOR) {
         operator = DEFAULT_OPERATOR;
-        setDisplayText(firstNumber);
+        setMainText(firstNumber);
+
     } else {
         let charToDelete = firstNumber.charAt(firstNumber.length - 1)
         if (charToDelete === ".") {
@@ -143,11 +134,13 @@ function deleteText() {
         if (firstNumber.length === 0) {
             firstNumber = DEFAULT_FIRST_NUMBER;
         }
-        setDisplayText(firstNumber);
+        setMainText(firstNumber);
     }
     setExpressionText();
 }
 
+
+// For clearing all user input
 const clearBtn = document.getElementById("clear-btn");
 clearBtn.addEventListener("click", () => {
     clearAll();
@@ -157,15 +150,15 @@ function clearAll() {
     firstNumber = DEFAULT_FIRST_NUMBER;
     operator = DEFAULT_OPERATOR;
     secondNumber = DEFAULT_SECOND_NUMBER;
-    result = DEFAULT_RESULT;
     firstNumberHasPoint = false;
     secondNumberHasPoint = false;
 
-    setDisplayText(firstNumber);
+    setMainText(firstNumber);
     setExpressionText();
 }
 
 
+// For operating on the inputted expression
 const equalBtn = document.getElementById("equal-btn");
 equalBtn.addEventListener("click", () => {
     operate();
@@ -179,10 +172,11 @@ function operate() {
     ) {
         let x = Number(firstNumber);
         let y = Number(secondNumber);
-        result = (Math.round(operation[operator](x, y) * 1000000) / 1000000).toString();
-        setDisplayText(result);
+        firstNumber = (Math.round(operation[operator](x, y) * 1000000) / 1000000).toString();
+        setMainText(firstNumber);
 
-        clearExpression();
+        operator = DEFAULT_OPERATOR;
+        secondNumber = DEFAULT_SECOND_NUMBER;
     }
 }
 
@@ -194,13 +188,8 @@ const operation = {
     "/": (x, y) => x / y,
 };
 
-function clearExpression() {
-    firstNumber = DEFAULT_FIRST_NUMBER;
-    operator = DEFAULT_OPERATOR;
-    secondNumber = DEFAULT_SECOND_NUMBER;
-}
 
-
+// For listening to keyboard input
 window.addEventListener("keydown", (e) => {
     if (!Number.isNaN(+e.key)) {
         setNumber(e.key);
@@ -215,6 +204,8 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
+
+// Prevent enter key from interacting with buttons
 const btns = document.querySelectorAll("button")
 btns.forEach(btn => btn.addEventListener("keydown", (e) => {
     e.preventDefault();
