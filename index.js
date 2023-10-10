@@ -10,7 +10,7 @@ let result = DEFAULT_RESULT;
 
 
 const expressionText = document.getElementById("expression");
-function writeExpressionText() {
+function setExpressionText() {
     expressionText.textContent = `${firstNumber}`;
     if (operator !== DEFAULT_OPERATOR) {
         expressionText.textContent += ` ${operator}`;
@@ -19,7 +19,7 @@ function writeExpressionText() {
         expressionText.textContent += ` ${secondNumber}`;
     }
 }
-writeExpressionText();
+setExpressionText();
 
 const displayText = document.getElementById("display");
 function setDisplayText(text) {
@@ -46,7 +46,7 @@ function setNumber(number) {
     }
     result = DEFAULT_RESULT;
 
-    writeExpressionText();
+    setExpressionText();
 }
 
 
@@ -62,19 +62,19 @@ function setOperator(op) {
         firstNumber = result;
         secondNumber = DEFAULT_SECOND_NUMBER;
 
-        writeExpressionText();
+        setExpressionText();
 
     } else if (result !== DEFAULT_RESULT) {
         firstNumber = result;
         secondNumber = DEFAULT_SECOND_NUMBER;
 
-        writeExpressionText();
+        setExpressionText();
     }
     result = DEFAULT_RESULT;
     operator = op;
 
     setDisplayText(operator);
-    writeExpressionText();
+    setExpressionText();
 }
 
 
@@ -100,7 +100,7 @@ function addPoint() {
         firstNumberHasPoint = true;
         setDisplayText(firstNumber);
     }
-    writeExpressionText();
+    setExpressionText();
 }
 
 
@@ -145,7 +145,7 @@ function deleteText() {
         }
         setDisplayText(firstNumber);
     }
-    writeExpressionText();
+    setExpressionText();
 }
 
 const clearBtn = document.getElementById("clear-btn");
@@ -162,7 +162,7 @@ function clearAll() {
     secondNumberHasPoint = false;
 
     setDisplayText(firstNumber);
-    writeExpressionText();
+    setExpressionText();
 }
 
 
